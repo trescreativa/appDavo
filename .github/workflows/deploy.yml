@@ -1,0 +1,53 @@
+name: Deploy a Hostinger
+
+on:
+  # Se dispara al hacer push a main
+  push:
+    branches: [main]
+  # O manualmente desde la pestaña Actions en GitHub
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Subir archivos a Hostinger vía FTP
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependencias
+        run: npm ci --omit=dev
+        # Instala solo dependencias de producción (sin devDependencies)
+
+      - name: Crear archivo .env en el servidor
+        run: |
+          cat > .env << EOF
+          FTP_HOST=${{ secrets.FTP_HOST }}
+          FTP_PORT=21
+          FTP_USER=${{ secrets.FTP_USER }}
+          FTP_PASSWORD=${{ secrets.FTP_PASSWORD }}
+          FTP_REMOTE_DIR=/public_html
+          UPLOAD_PASSWORD=${{ secrets.UPLOAD_PASSWORD }}
+          PORT=3000
+          EOF
+
+      - name: Subir archivos a Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: /appDavo/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/.cache/**
+            **/.env.example
+            **/README.md
