@@ -1,0 +1,19 @@
+{
+  "name": "appdavo-html-uploader",
+  "version": "1.0.0",
+  "description": "Interface para que el cliente suba su HTML y actualice su web en Hostinger",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "basic-ftp": "^5.0.5",
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1",
+    "multer": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
