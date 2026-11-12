@@ -25,9 +25,9 @@ jobs:
       - name: Crear archivo .env
         run: |
           cat > .env << EOF
-          FTP_HOST=${{ secrets.FTP_HOST }}
+          FTP_HOST=191.96.56.60
           FTP_PORT=21
-          FTP_USER=${{ secrets.FTP_USER }}
+          FTP_USER=u111197833.orangered-weasel-837822.hostingersite.com
           FTP_PASSWORD=${{ secrets.FTP_PASSWORD }}
           FTP_REMOTE_DIR=/public_html
           UPLOAD_PASSWORD=${{ secrets.UPLOAD_PASSWORD }}
@@ -39,8 +39,8 @@ jobs:
           python3 << 'PYEOF'
           import ftplib, sys, socket
 
-          host = "${{ secrets.FTP_HOST }}"
-          user = "${{ secrets.FTP_USER }}"
+          host = "191.96.56.60"
+          user = "u111197833.orangered-weasel-837822.hostingersite.com"
           pwd  = "${{ secrets.FTP_PASSWORD }}"
 
           print(f"Host: {host}")
@@ -81,8 +81,8 @@ jobs:
         id: ftp_plain
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
+          server: 191.96.56.60
+          username: u111197833.orangered-weasel-837822.hostingersite.com
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
           local-dir: ./
@@ -98,8 +98,8 @@ jobs:
         if: steps.ftp_plain.outcome == 'failure'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
+          server: 191.96.56.60
+          username: u111197833.orangered-weasel-837822.hostingersite.com
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
           local-dir: ./
